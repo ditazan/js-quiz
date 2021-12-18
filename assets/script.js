@@ -1,5 +1,3 @@
-
-
 var quizArea = $("#quiz-area");
 var colorButtons = $(".butt-options");
 
@@ -26,13 +24,16 @@ function countdown() {
       } else if (timeLeft === 0) {
         timerEl.text('time : ' + timeLeft);
         clearInterval(timeInterval);
-     
-        
       }
     }, 1000);
   }
 
   countdown();
-  makeColorButtons(buttons);
 
-  console.log(timerEl);
+ function start(){
+     var startPrompt = $("<p id= 'start-prompt' class='text-light text-center'> Test your eyes by selecting the odd color out. </p>");
+     startPrompt.insertAfter("h1");
+     var startBtn = $("<button id ='start-btn' class='btn btn-warning'> Start </button>")
+    startBtn.appendTo(".butt-options");
+    }
+ start();
