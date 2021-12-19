@@ -1,6 +1,6 @@
 var quizArea = $("#quiz-area");
 var colorButtons = $(".butt-options");
-// var score = "";
+var score = "";
 
 var colorButton = "";
 
@@ -10,6 +10,7 @@ var buttons = ["wrong", "wrong", "wrong", "right"];
 
 
 function makeColorButtons(c) {
+  $("#start-btn").remove();
   for (var i = 0; i < c.length; i++) {
     $(".butt-options").append(
       '<button class= "btn color-btn ' + c[i] + '">  .......  </button>'
@@ -20,10 +21,20 @@ function makeColorButtons(c) {
 
 var timerEl = $("#timer");
 
-function countdown() {
-  var timeLeft = 10;
-  var scoreBtnEl = "";
+function end(){
+  var scoreBtn = $("<button id ='score-btn' class='btn btn-warning'> Submit </button>");
+  $("h1").text("Times up !");
+  $("p").text("Your scored a : " + score);
+  $(".color-btn").remove();
+  var initials = $("<form> Enter Your Initials : <input type='text'></form>");
+  initials.appendTo(".butt-options");
+  scoreBtn.appendTo(".butt-options");
+}
 
+
+
+function countdown() {
+  var timeLeft = 5;
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {
       timerEl.text("time : " + timeLeft);
@@ -31,11 +42,8 @@ function countdown() {
     } else if (timeLeft === 0) {
       timerEl.text("time : " + timeLeft);
       clearInterval(timeInterval);
-      $("h1").text("Times up !");
-      $("p").text("Your scored a : " );
-      
+      end();
     }
-    
   }, 1000);
 }
 
@@ -52,11 +60,31 @@ function start() {
   startBtn.appendTo(".butt-options");
 }
 
+var highscorePg = function hsPg(){
+  $(".butt-options").empty();
+  $("header").remove();
+  $("p").remove();
+  $("h1").text("Highscores :");
+  $("<ol> <li>placeholder</li> <li>placeholder</li> </ol>").appendTo(".butt-options");
+}
+
+
+
+
+
+
+
+
+
 start();
 
 $(".butt-options").on("click", "#start-btn", function () {
-$("#start-btn").remove();
-  $("#start-prompt").remove();
+
   makeColorButtons(buttons);
   countdown();
 });
+
+$(".butt-options").on("click", "#score-btn", function () {
+  
+  highscorePg();
+  });
