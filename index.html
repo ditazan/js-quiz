@@ -12,17 +12,18 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css"
     />
+    <link rel="stylesheet" href="./assets/style.css">
   </head>
 
   <body>
     <header class="d-flex justify-content-between m-3">
-      <h4>View Highscores</h4>
+      <h4 id="view-hs">View Highscores</h4>
       <h4 id="timer"></h4>
     </header>
 
     <div class="vh-100 bg-dark d-flex align-items-center">
       <section class="row vw-100 justify-content-center">
-        <div  id = "quiz-area" class="col-10 col-md-6 col-lg-5">
+        <div id="quiz-area" class="col-10 col-md-6 col-lg-5">
           <h1 class="display-3 text-center text-light">color quiz</h1>
 
           <div
@@ -38,7 +39,16 @@
               mb-4
               flex-wrap
             "
-          ></div>
+          >
+          <div id="container">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        </div>
+          </div>
         </div>
       </section>
     </div>
