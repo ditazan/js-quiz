@@ -1,4 +1,4 @@
-var timeLeft = 10;
+var timeLeft = 50;
 var backBtn = $(
   "<button id ='back-btn' class='btn btn-warning'> Back </button>"
 );
@@ -6,36 +6,32 @@ var startBtn = $(
   "<button id ='start-btn' class='btn btn-warning'> Start </button>"
 );
 
-var score = "";
+var score = 0;
+var baseColor = "";
+var pickColor = "";
+var answerSquare = "";
 
 function makeColorButtons() {
   $("#container").show();
- 
 
-  var pickColor = function(){
-    //pick a "red" from 0-255
-    r = r+ math.floor(math.random()*10);
-    //pick a "green" from 0-255
-    g = g+ math.floor(math.random()*10);
-    //pick a "blue" from 0-255
-    b = b+ math.floor(math.random()*10);
+  var r = Math.floor(Math.random() * 256);
+  var g = Math.floor(Math.random() * 256);
+  var b = Math.floor(Math.random() * 256);
+  baseColor = "rgb(" + r + ", " + g + ", " + b + ")";
 
-    return "rgb(" + r + ", " + g + ", " + b + ")";
-  }
+  var R = r + Math.floor(Math.random() * 50);
+  var G = g + Math.floor(Math.random() * 50);
+  var B = b + Math.floor(Math.random() * 50);
+  pickColor = "rgb(" + R + ", " + G + ", " + B + ")";
 
+  answerSquare = $(".square")[Math.floor(Math.random() * 6)];
 
-    //pick a "red" from 0-255
-    var r = Math.floor(Math.random() * 256);
-    //pick a "green" from 0-255
-    var g = Math.floor(Math.random() * 256);
-    //pick a "blue" from 0-255
-    var b = Math.floor(Math.random() * 256);
-
-   var baseColor = "rgb(" + r + ", " + g + ", " + b + ")";
-  
-   $(".square").each(function (i) {
+  $(".square").each(function (i) {
     this.style.background = baseColor;
   });
+
+  answerSquare.style.background = pickColor;
+
 }
 
 var timerEl = $("#timer");
@@ -46,7 +42,8 @@ function end() {
     "<button id ='score-btn' class='btn btn-warning'> Submit </button>"
   );
   $("h1").text("Times up !");
-  $("p").text("Your scored a : " + score);
+  $("#start-prompt").text("Your score : " + score);
+  $("#wrong").remove();
   $(".color-btn").remove();
   var initials = $(
     "<form class='mb-3 w-100 text-center'>Enter Your Initials : <input type='text'></form>"
@@ -105,9 +102,18 @@ $(".butt-options").on("click", "#start-btn", function () {
   countdown();
 });
 
-$(".butt-options").on("click", ".square", function () {
+$(".butt-options").on("click", ".square", function (event) {
   makeColorButtons();
   countdown();
+  console.log(pickColor);
+  console.log(event.target.style.background);
+  if (event.target.style.background === pickColor) {
+    score++;
+    $("#wrong").remove();
+  } else{
+    $("<p id ='wrong' class='text-light'>Wrong !</p>").appendTo("#quiz-area");
+    console.log("wrong");
+  } 
 });
 
 $(".butt-options").on("click", "#score-btn", function () {
