@@ -1,6 +1,6 @@
 
 
-var timeLeft = 2;
+var timeLeft = 20;
 var backBtn = $(
   "<button id ='back-btn' class='btn btn-warning'> Back </button>"
 );
