@@ -1,4 +1,4 @@
-
+var users = [];
 
 var timeLeft = 2;
 var backBtn = $(
@@ -8,7 +8,7 @@ var startBtn = $(
   "<button id ='start-btn' class='btn btn-warning'> Start </button>"
 );
 
-var users = [{}];
+
 var Score = 0;
 var baseColor = "";
 var pickColor = "";
@@ -37,23 +37,20 @@ function makeColorButtons() {
 
 var timerEl = $("#timer");
 
-var saveScore = function () {
-  localStorage.setItem("users", JSON.stringify(users));
-};
 
 var loadScore = function () {
   users = JSON.parse(localStorage.getItem("users"));
 
   if (!users) {
-    users = [{
+    users = {
       "name": "",
       "score": ""
-    }];
+    };
   }
-    $.each(users, function(users) {
-      createUser(users.name, users.score);
-    });
+    
 };
+
+var Name="";
 
 function end() {
   
@@ -71,24 +68,33 @@ function end() {
   scoreBtn.appendTo(".butt-options");
 
   
-  
 
-  $(".butt-options").on("click", "#score-btn", function () {
-    var name = $("input").val();
-    console.log(name);
-    if (!name) {
+  $(".butt-options").on("click", "#score-btn", function (event) {
+    event.preventDefault();
+   Name = $("input").val();
+    console.log(Name);
+
+    if (!Name) {
       alert("please submit your initials");
       return false;
-    } else {
-      var currentUser = {
-        "name": name,
+    } 
+    users = JSON.parse(localStorage.getItem("users"));
+      // var user = {
+      //   "name": Name,
+      //   "score": Score
+      // };
+
+      users.push({
+        "name": Name,
         "score": Score
-      };
-     users.push(currentUser);
-     saveScore();
+      });
+
+      localStorage.setItem("users", JSON.stringify(users));
+      createUser(Name, Score);
       highscorePg();
-    }
+  
   });
+  return Name;
 }
 
 function countdown() {
@@ -129,12 +135,14 @@ var highscorePg = function hsPg() {
   $("ol").after(
     "<button id ='clear-btn' class='btn btn-warning'> Clear </button>"
   );
+  $.each(users, function(i) {
+    createUser(users[i].name, users[i].score);
+  });
+  createUser(Name, Score);
 };
 
 var createUser = function (name, score) {
-   var listItem = $("<li>" + name + " " + score + "</li>").appendTo("ol");
-
- 
+  var listItem = $("<li>" + name + " " + score + "</li>").appendTo("ol");
 };
 start();
 
@@ -164,5 +172,5 @@ $(".butt-options").on("click", "#back-btn", function () {
 
 $(".butt-options").on("click", "#clear-btn", function () {
   $("ol").empty();
-  localStorage.clear();
+   localStorage.clear();
 });
