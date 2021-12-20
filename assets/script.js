@@ -46,8 +46,8 @@ var loadScore = function () {
 
   if (!users) {
     users = {
-      name: "",
-      score: ""
+      name: [],
+      score: []
     };
   }
 
