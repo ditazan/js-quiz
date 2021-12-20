@@ -1,4 +1,6 @@
-var timeLeft = 50;
+
+
+var timeLeft = 2;
 var backBtn = $(
   "<button id ='back-btn' class='btn btn-warning'> Back </button>"
 );
@@ -6,10 +8,10 @@ var startBtn = $(
   "<button id ='start-btn' class='btn btn-warning'> Start </button>"
 );
 
+var users = {};
 var score = 0;
 var baseColor = "";
 var pickColor = "";
-var answerSquare = "";
 
 function makeColorButtons() {
   $("#container").show();
@@ -24,19 +26,41 @@ function makeColorButtons() {
   var B = b + Math.floor(Math.random() * 50);
   pickColor = "rgb(" + R + ", " + G + ", " + B + ")";
 
-  answerSquare = $(".square")[Math.floor(Math.random() * 6)];
+  var answerSquare = $(".square")[Math.floor(Math.random() * 6)];
 
   $(".square").each(function (i) {
     this.style.background = baseColor;
   });
 
   answerSquare.style.background = pickColor;
-
 }
 
 var timerEl = $("#timer");
 
+var saveScore = function () {
+  localStorage.setItem("users", JSON.stringify(users));
+};
+
+var loadScore = function () {
+  users = JSON.parse(localStorage.getItem("users"));
+
+  if (!users) {
+    users = {
+      name: "",
+      score: ""
+    };
+  }
+
+  $.each(users, function (list, arr) {
+    console.log(list, arr);
+    arr.forEach(function (user) {
+      createUser(user.name, user.score, list);
+    });
+  });
+};
+
 function end() {
+  
   $(".butt-options").empty();
   var scoreBtn = $(
     "<button id ='score-btn' class='btn btn-warning'> Submit </button>"
@@ -45,12 +69,25 @@ function end() {
   $("#start-prompt").text("Your score : " + score);
   $("#wrong").remove();
   $(".color-btn").remove();
-  var initials = $(
-    "<form class='mb-3 w-100 text-center'>Enter Your Initials : <input type='text'></form>"
-  );
-  initials.appendTo(".butt-options");
+  var initialsForm = $("<form class='mb-3 w-100 text-center'>Enter Your Initials : <input type='text'></form>");
+  initialsForm.appendTo(".butt-options");
   backBtn.appendTo(".butt-options");
   scoreBtn.appendTo(".butt-options");
+
+  
+  
+
+  $(".butt-options").on("click", "#score-btn", function () {
+    var name = $("input").val();
+    console.log(name);
+    if (!name) {
+      alert("please submit your initials");
+      return false;
+    } else {
+      saveScore();
+      highscorePg();
+    }
+  });
 }
 
 function countdown() {
@@ -73,22 +110,28 @@ function start() {
     "<p id= 'start-prompt' class='text-light text-center'> Test your eyes by selecting the odd color out. </p>"
   );
   startPrompt.insertAfter("h1");
-
   startBtn.appendTo(".butt-options");
 }
 
+var createUser = function (name, score) {
+    $("<li>" + name + " " + score + "</li>").appendTo("ol");
+ 
+};
+
 var highscorePg = function hsPg() {
+  
   $(".butt-options").empty();
   $("header").remove();
   $("p").remove();
   $("h1").text("Highscores :");
   $(
-    "<ol class= 'list-group list-group-numbered w-100 mb-3 text-center'> <li class='list-group-item'>placeholder</li> <li class='list-group-item'>placeholder</li> </ol>"
+    "<ol class= 'list-group list-group-numbered w-100 mb-3 text-center'> </ol>"
   ).appendTo(".butt-options");
   $("ol").after(backBtn);
   $("ol").after(
     "<button id ='clear-btn' class='btn btn-warning'> Clear </button>"
   );
+  createUser(users.name, users.score);
 };
 
 start();
@@ -103,21 +146,14 @@ $(".butt-options").on("click", "#start-btn", function () {
 });
 
 $(".butt-options").on("click", ".square", function (event) {
-  makeColorButtons();
-  countdown();
-  console.log(pickColor);
-  console.log(event.target.style.background);
   if (event.target.style.background === pickColor) {
     score++;
     $("#wrong").remove();
-  } else{
+  } else {
     $("<p id ='wrong' class='text-light'>Wrong !</p>").appendTo("#quiz-area");
     console.log("wrong");
-  } 
-});
-
-$(".butt-options").on("click", "#score-btn", function () {
-  highscorePg();
+  }
+  makeColorButtons();
 });
 
 $(".butt-options").on("click", "#back-btn", function () {
