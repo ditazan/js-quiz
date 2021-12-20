@@ -8,8 +8,8 @@ var startBtn = $(
   "<button id ='start-btn' class='btn btn-warning'> Start </button>"
 );
 
-var users = {};
-var score = 0;
+var users = [{}];
+var Score = 0;
 var baseColor = "";
 var pickColor = "";
 
@@ -45,18 +45,14 @@ var loadScore = function () {
   users = JSON.parse(localStorage.getItem("users"));
 
   if (!users) {
-    users = {
-      name: [],
-      score: []
-    };
+    users = [{
+      "name": "",
+      "score": ""
+    }];
   }
-
-  $.each(users, function (list, arr) {
-    console.log(list, arr);
-    arr.forEach(function (user) {
-      createUser(user.name, user.score, list);
+    $.each(users, function(users) {
+      createUser(users.name, users.score);
     });
-  });
 };
 
 function end() {
@@ -66,7 +62,7 @@ function end() {
     "<button id ='score-btn' class='btn btn-warning'> Submit </button>"
   );
   $("h1").text("Times up !");
-  $("#start-prompt").text("Your score : " + score);
+  $("#start-prompt").text("Your score : " + Score);
   $("#wrong").remove();
   $(".color-btn").remove();
   var initialsForm = $("<form class='mb-3 w-100 text-center'>Enter Your Initials : <input type='text'></form>");
@@ -84,7 +80,12 @@ function end() {
       alert("please submit your initials");
       return false;
     } else {
-      saveScore();
+      var currentUser = {
+        "name": name,
+        "score": Score
+      };
+     users.push(currentUser);
+     saveScore();
       highscorePg();
     }
   });
@@ -113,13 +114,10 @@ function start() {
   startBtn.appendTo(".butt-options");
 }
 
-var createUser = function (name, score) {
-    $("<li>" + name + " " + score + "</li>").appendTo("ol");
- 
-};
+
 
 var highscorePg = function hsPg() {
-  
+  loadScore();
   $(".butt-options").empty();
   $("header").remove();
   $("p").remove();
@@ -131,9 +129,13 @@ var highscorePg = function hsPg() {
   $("ol").after(
     "<button id ='clear-btn' class='btn btn-warning'> Clear </button>"
   );
-  createUser(users.name, users.score);
 };
 
+var createUser = function (name, score) {
+   var listItem = $("<li>" + name + " " + score + "</li>").appendTo("ol");
+
+ 
+};
 start();
 
 $("header").on("click", "#view-hs", function () {
@@ -147,7 +149,7 @@ $(".butt-options").on("click", "#start-btn", function () {
 
 $(".butt-options").on("click", ".square", function (event) {
   if (event.target.style.background === pickColor) {
-    score++;
+    Score++;
     $("#wrong").remove();
   } else {
     $("<p id ='wrong' class='text-light'>Wrong !</p>").appendTo("#quiz-area");
