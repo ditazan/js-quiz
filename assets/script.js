@@ -126,7 +126,7 @@ var highscorePg = function hsPg() {
   $("p").remove();
   $("h1").text("Highscores :");
   $(
-    "<ol class= 'list-group list-group-numbered w-100 mb-3 text-center'> </ol>"
+    "<ol class= 'list-group list-group-numbered w-100 text-center p-5'> </ol>"
   ).appendTo(".butt-options");
   $("ol").after(backBtn);
   $("ol").after(
