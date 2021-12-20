@@ -1,4 +1,4 @@
-var users = [];
+
 
 var timeLeft = 2;
 var backBtn = $(
@@ -42,15 +42,16 @@ var loadScore = function () {
   users = JSON.parse(localStorage.getItem("users"));
 
   if (!users) {
-    users = {
+    users = [{
       "name": "",
       "score": ""
-    };
+    }];
   }
     
 };
 
 var Name="";
+var users = [{}];
 
 function end() {
   
@@ -78,11 +79,8 @@ function end() {
       alert("please submit your initials");
       return false;
     } 
-    users = JSON.parse(localStorage.getItem("users"));
-      // var user = {
-      //   "name": Name,
-      //   "score": Score
-      // };
+
+    loadScore();
 
       users.push({
         "name": Name,
@@ -90,11 +88,10 @@ function end() {
       });
 
       localStorage.setItem("users", JSON.stringify(users));
-      createUser(Name, Score);
       highscorePg();
   
   });
-  return Name;
+  // return Name;
 }
 
 function countdown() {
@@ -135,10 +132,10 @@ var highscorePg = function hsPg() {
   $("ol").after(
     "<button id ='clear-btn' class='btn btn-warning'> Clear </button>"
   );
+
   $.each(users, function(i) {
     createUser(users[i].name, users[i].score);
   });
-  createUser(Name, Score);
 };
 
 var createUser = function (name, score) {
