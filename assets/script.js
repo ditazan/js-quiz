@@ -156,7 +156,7 @@ $(".butt-options").on("click", ".square", function (event) {
   if (event.target.style.backgroundColor === pickColor) {
     Score++;
     
-  } else {
+  } else if(event.target.style.backgroundColor === baseColor){
     $("<p id ='wrong' class='text-light'>Wrong !</p>").appendTo("#quiz-area");
     console.log("wrong");
     setTimeout(function(){
