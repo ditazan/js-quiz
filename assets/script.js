@@ -155,11 +155,16 @@ $(".butt-options").on("click", "#start-btn", function () {
 $(".butt-options").on("click", ".square", function (event) {
   if (event.target.style.backgroundColor === pickColor) {
     Score++;
-    $("#wrong").remove();
+    
   } else {
     $("<p id ='wrong' class='text-light'>Wrong !</p>").appendTo("#quiz-area");
     console.log("wrong");
+    setTimeout(function(){
+      $("#wrong").remove();
+    }, 400);
+    // $("#wrong").delay(300).remove();
   }
+  
   makeColorButtons();
 });
 
