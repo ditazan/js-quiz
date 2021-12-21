@@ -1,13 +1,12 @@
 .square {
-    width: 300px;
-    height:300px;
-    margin: 2%;
+    padding-top: 30%;
+    margin: 1%;
     background: rgb(0, 0, 0);
     border-radius: 10%;
   }
   
-  #container {
+  /* #container {
       display:flex;
       justify-content: center;
-      flex-wrap:wrap;
-  }
+      flex-wrap:wrap; */
+  /* } */
