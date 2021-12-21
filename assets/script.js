@@ -153,7 +153,7 @@ $(".butt-options").on("click", "#start-btn", function () {
 });
 
 $(".butt-options").on("click", ".square", function (event) {
-  if (event.target.style.background === pickColor) {
+  if (event.target.style.backgroundColor === pickColor) {
     Score++;
     $("#wrong").remove();
   } else {
