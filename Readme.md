@@ -9,7 +9,6 @@ https://ditazan.github.io/js-quiz/
 - js
 - bootstrap
 - jquery
-- bootstrap
 
-## How it works
-The user is asked to select the odd color out until they run out of time. This site utilizes local storage to save the players' scores.
+## how it works
+The user is asked to select the odd color out until they run out of time. Highscores are saved in the browser's local storage.
